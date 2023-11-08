@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="m-5">Overall Results</h2>
+<div class="d-flex justify-content-center">
+    <table class="table table-striped" style="width: 80%;">
+        <caption>List for overall results. Scroll down to see detailed course results.</caption>
+        <caption>'J' for juniors</caption>
+        <caption>'NQ' for not qualified</caption>
+        <tr>
+            <th>Driver ID</th>
+            <th>Driver Name</th>
+            <th>Car Model</th>
+            <th>Run Total</th>
+            <th>Win Status</th>
+        </tr>
+        {% for runtotal in runtotal_rank %}
+        <tr>
+            <td>{{ runtotal[0] }}</td>
+            <td>{{ runtotal[1] }}</td>
+            <td>{{ runtotal[2] }}</td>
+            <td>{{ runtotal[4] }}</td>
+            <td>
+                {% if runtotal[3] < 6 %} 
+                NQ 
+                {% elif loop.index==1 %} 
+                cup 
+                {% elif loop.index <=5 %} 
+                prize 
+                {% endif %} </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<h2 class="m-5">Detailed Course Results</h2>
+<div class="d-flex justify-content-center">
+    <table class="table table-hover" style="width: 80%;">
+        <thead>
+            <tr>
+                <th>Driver ID</th>
+                <th>Driver Name</th>
+                <th>Car Model</th>
+                <th>Course Name</th>
+                <th>Course Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% set driver = namespace(id='', name='', model='') %}
+            {% for result in overall_result %}
+            {% if driver.id != result[0] %}
+            <!-- Display driver info when driver ID changes -->
+            <tr>
+                <td>{{ result[0] }}</td>
+                <td>{{ result[1] }}</td>
+                <td>{{ result[2] }}</td>
+                <td></td>
+                <td></td>
+            </tr>
+            {% set driver.id = result[0] %}
+            {% set driver.name = result[1] %}
+            {% set driver.model = result[2] %}
+            {% endif %}
+            <!-- Display course info for each row -->
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>{{ result[4] }}</td>
+                <td>{{ result[5] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

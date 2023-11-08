@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-center vh-100">
+    <div class="text-center">
+        <h3 class="my-5">Welcome to the Admin Portal!</h3>
+        <form action="/searchdriver" method="POST"> 
+            <div class="input-group">
+                <input class="form-control m-4" type="text" name="search_text" placeholder="First name or Surname"
+                    id="driverInput">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-dark my-4">Search Driver</button>
+                </div>
+            </div>
+        </form>
+        <a href="{{ url_for('listjunior') }}" class="btn btn-primary btn-lg btn-block m-4">Junior Driver List</a>
+        <a href="{{ url_for('admindriver') }}" class="btn btn-info btn-lg m-4">Edit Runs</a>
+        <a href="{{ url_for('adddriver') }}" class="btn btn-success btn-lg my-5 mx-4">Add Driver</a>
+    </div>
+</div>
+{% endblock %}

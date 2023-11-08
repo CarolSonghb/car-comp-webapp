@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% if not is_junior%}
+<div class="d-flex justify-content-between">
+    <h2 class="my-5" style="margin-left: 10%;">Add New Driver</h2>
+    <div class="my-5" style="margin-right: 40%;">
+        <label>If you are adding a junior driver</label>
+        <a href="{{ url_for('addjunior') }}" class="btn btn-success mx-3">Click here</a>
+    </div>
+</div>
+
+<div class="d-flex justify-content-center">
+    <form action="/addnewdriver" method="POST" class="row" style="width: 80%;">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="first_name">First Name:</label>
+                <input type="text" class="form-control" id="first_name" name="first_name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="last_name">Last Name:</label>
+                <input type="text" class="form-control" id="last_name" name="last_name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="car">Select a Car:</label>
+                <select class="form-control" id="car" name="car">
+                    {% for car in car_list %}
+                    <option value="{{ car[0] }}">{{ car[0] }} - {{ car[1] }} - {{ car[2] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+        <button type="submit" class="btn btn-primary mt-5">Add Driver</button>
+    </form>
+</div>
+
+{% else %}
+
+<h2 class="my-5" style="margin-left: 10%;">Add a Junior Driver</h2>
+<div class="d-flex justify-content-center">
+    <form action="/addjunior" method="POST" class="row" style="width: 80%;">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="first_name">First Name:</label>
+                <input type="text" class="form-control" id="first_name" name="first_name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="last_name">Last Name:</label>
+                <input type="text" class="form-control" id="last_name" name="last_name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="car">Select a Car:</label>
+                <select class="form-control" id="car" name="car">
+                    {% for car in car_list %}
+                    <option value="{{ car[0] }}">{{ car[0] }} - {{ car[1] }} - {{ car[2] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="dob">Date of Birth:</label>
+                <input type="date" class="form-control" id="dob" name="dob" min="1997-01-01" max="2011-12-31" 
+                required oninvalid="setCustomValidity('A junior is between age 12 to 26')" oninput="setCustomValidity('')">
+            </div>
+            <div class="form-group mt-4">
+                <label for="caregiver">Choose a Caregiver:</label>
+                <select class="form-control" name="caregiver" id="caregiver">
+                    {% for caregiver in caregiver_list %}
+                    <option value="{{ caregiver[0] }}">{{ caregiver[2] }} {{caregiver[1]}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-5">Add Driver</button>
+        <button type="reset" class="btn btn-secondary mt-2" style="margin-bottom: 20%;">Reset</button>
+    </form>
+</div>
+{% endif %}
+{% endblock %}

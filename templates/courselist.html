@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="pageheader mt-3">Course List</h2>
+<h3 class="pagesub mb-3">current competition courses</h3>
+
+<!-- code to display list of courses-->
+<table class="table d-flex justify-content-center align-items-center">
+    <tr>
+        <th>Course</th>
+        <th>Name</th>
+        <th>Map diagram</th>
+    </tr>
+    {% for course in course_list %}
+        <tr>
+            <td>{{ course[0] }}</td>
+            <td>{{ course[1] }}</td>
+            <td>
+                <img src="{{ url_for('static', filename='images/' + course[2]) }}" alt="{{ course[1] }} Map"
+                style = "max-width: 400px; max-height: 400px;">
+            </td>
+
+        </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

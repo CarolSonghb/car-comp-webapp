@@ -1,0 +1,21 @@
+.homeheader {
+    background-image: url("https://images.unsplash.com/photo-1567940984277-af92f5cec3c5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80 ");
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: white;
+    padding: 50px;
+    height: 200px;
+    background-position: center top;
+}
+
+.navbar-brand {
+    margin-left: 50px;
+}
+
+.pageheader, .pagesub {
+    text-align: center;
+}
+
+h6 {
+    margin-right: 2%;
+}

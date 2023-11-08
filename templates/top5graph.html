@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+    <!-- access Plotly content delivery network (CDN) charting library -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+<body>
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <h2 class="m-5 text-center">Top 5 Driver Graph</h2>
+                <div id="myHBarPlot"></div>
+            </div>
+        </div>
+    </div>
+    
+
+    <script>
+        // Define graph data using the passed variables
+            const nameList = {{ name_list | tojson | safe }};
+            const valueList = {{ value_list | tojson | safe }};
+            const colors = ["blue", "green", "red", "purple", "orange"]; 
+
+            // Create data for the horizontal bar graph
+            const data = [{
+                x: valueList,
+                y: nameList,
+                type: "bar",
+                orientation: "h",
+                marker: {
+                    color: colors
+                }
+            }];
+
+            // Define graph layout
+            const layout = {
+                xaxis: {
+                    title: "Sum of 6 Run totals", // Customize the x-axis title
+                },
+                yaxis: {
+                    automargin: true
+                },
+                title: "Top 5 Drivers Overall Results",
+            };
+
+            // Display the graph using Plotly
+            Plotly.newPlot("myHBarPlot", data, layout);
+
+    </script>
+
+</body>
+</html>
+
+{% endblock %}

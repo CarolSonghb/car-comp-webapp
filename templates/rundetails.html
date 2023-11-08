@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% if is_admin %}
+<a href="/admin/driverlist">
+    <button type="button" class="btn btn-info mt-5" style="margin-left: 10%;">Back to Driver List</button>
+</a>
+{% endif %}
+<h2 class="my-5" style="margin-left: 10%;">Driver Run Details</h2>
+
+{% if run_details %}
+    <!-- display driver and their car info above the table-->
+    <div class="d-flex flex-row justify-content-center">
+        <h6><strong>Driver ID: </strong>{{ run_details[0][0] }}</h6>
+        <h6><strong>Driver Name: </strong>{{ run_details[0][2] }} {{ run_details[0][1] }}</h6>
+        <h6><strong>Car Model:</strong>{{ run_details[0][3] }}</h6>
+        <h6><strong>Driver Class:</strong>{{ run_details[0][4] }}</h6>
+    </div>
+
+    <!-- Display flashed messages -->
+    {{ message }}
+
+
+    <!-- table to display run details -->
+    <div class="d-flex justify-content-center mt-5">
+        <table class="table" style="width: 80%;">
+            <caption>Driver Run Details</caption>
+            <caption>dnf: did not finish</caption>
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Course Name</th>
+                    <th scope="col">Run Number</th>
+                    <th scope="col">Seconds</th>
+                    <th scope="col">Cones Hit</th>
+                    <th scope="col">Wrong D</th>
+                    <th scope="col">Run Total</th>
+                </tr>
+            </thead>
+            <tbody>
+            <!-- set namespace id so that the same course name only appears once -->
+            {% set course = namespace(id = 0) %}
+                <tr>
+                    {% for run in run_details %}
+                    {% if course.id != run[5] %}
+                    <td>{{ run[6] }}</td>
+                    {% set course.id = run[5] %}
+                    {% else %}
+                    <td></td>
+                    {% endif %}
+                    <td>{{ run[7] }}</td>
+                    <td>{{ run[8] }}</td>
+                    <td>{{ run[9] }}</td>
+                    <td>{{ run[10] }}</td>
+                    <td>{{ run[11] }}</td>
+                    <td>
+                        {% if is_admin %}
+                        <a href="/editruns?driver_id={{ run[0] }}&course_id={{ run[5] }}&run_num={{ run[7] }}" class="btn btn-primary btn-sm">Edit</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+        {% if courserun_details %}
+            <div class="d-flex flex-row justify-content-center">
+                <h6><strong>Course ID: </strong>{{ courserun_details[0][0] }}</h6>
+                <h6><strong>Course Name: </strong>{{ courserun_details[0][1] }}</h6>
+            </div>
+            
+            <!-- Display flashed messages -->
+            {{ message }}
+
+            <!-- table to display run details -->
+            <div class="d-flex justify-content-center mt-5">
+                <table class="table" style="width: 80%;">
+                    <caption>Driver Run Details</caption>
+                    <caption>dnf: did not finish</caption>
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Driver ID</th>
+                            <th scope="col">Driver Name</th>
+                            <th scope="col">Run Number</th>
+                            <th scope="col">Seconds</th>
+                            <th scope="col">Cones Hit</th>
+                            <th scope="col">Wrong D</th>
+                            <th scope="col">Run Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <!-- set namespace id so that the same course name only appears once -->
+                    {% set driver = namespace(id = 0, name = '') %}
+                        <tr>
+                            {% for run in courserun_details %}
+                            {% if driver.id != run[2] %}
+                            <td>{{ run[2] }}</td>
+                            <td>{{ run[3] }}</td>
+                            {% set driver.id = run[2] %}
+                            {% set driver.name = run[3] %}
+                            {% else %}
+                            <td></td>
+                            <td></td>
+                            {% endif %}
+                            <td>{{ run[4] }}</td>
+                            <td>{{ run[5] }}</td>
+                            <td>{{ run[6] }}</td>
+                            <td>{{ run[7] }}</td>
+                            <td>{{ run[8] }}</td>
+                            <td>
+                                {% if is_admin %}
+                                <a href="/editruns?driver_id={{ run[2] }}&course_id={{ run[0] }}&run_num={{ run[4] }}" class="btn btn-primary btn-sm">Edit</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+
+
+        {% endif %}
+
+
+
+{% endif %}
+
+
+
+{% endblock %}

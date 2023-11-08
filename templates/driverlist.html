@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- driver_list is the variable passed in containing the list of drivers -->
+<!-- Add code to display a list of drivers -->
+
+{% if is_junior %}
+<a href="/adminportal">
+    <button type="button" class="btn btn-info mt-5" style="margin-left: 10%;">Admin Portal</button>
+</a>
+<h2 class="my-5" style="margin-left: 10%;">Junior Driver List</h2>
+<div class="d-flex justify-content-center">
+    <!-- code to display list of drivers-->
+    <table class="table" style="width: 80%;">
+        <caption>List of junior drivers</caption>
+        <caption>From oldest to youngest</caption>
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Surname Firstname</th>
+                <th scope="col">D.O.B</th>
+                <th scope="col">Age</th>
+                <th scope="col">Caregiver</th>
+                <th scope="col">Car Model</th>
+                <th scope="col">Drive Class</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for junior in junior_driver %}
+            <tr>
+                <td>{{ junior[0] }}</td>
+                <td><a href="/admin/viewrundetails?driver_id={{ junior[0] }}">{{ junior[1] }}</td>
+                <td>{{ junior[2] }}</td>
+                <td>{{ junior[3] }}</td>
+                <td>{{ junior[4] }}</td>
+                <td>{{ junior[5] }}</td>
+                <td>{{ junior[6] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<!-- form to get user selection -->
+
+{% if is_admin %}
+<a href="/adminportal">
+    <button type="button" class="btn btn-info mt-5" style="margin-left: 10%;">Admin Portal</button>
+</a>
+    <form action="/admin/viewcourserundetails" method="POST">
+{% else %}
+    <form action="/listdrivers/rundetails" method="POST">
+{% endif %}
+        <div class="d-flex justify-content-between">
+            <h2 class="my-5" style="margin-left: 10%;">Driver List</h2>
+            <div class="my-5" style="margin-right: 10%;">
+                {% if is_admin %}
+                    <label for="crouse" style="font-size: 20px; margin-right: 20px;">Select a Course: </label>
+                    <select id="course" name="course">
+                        {% for course in course_list %}
+                        <option value="{{ course[0] }}">{{ course[0] }} - {{ course[1] }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit" class="btn btn-outline-success btn-sm" style="margin-left: 20px;">Edit Runs</button>
+                {% else %}
+                    <label for="driver" style="font-size: 20px; margin-right: 20px;">Select a Driver: </label>
+                    <!-- a selecttion box with driver's ID and name displayed -->
+                    <select id="driver" name="driver">
+                        {% for driver in driver_list %}
+                        <option value="{{ driver[0] }}">{{ driver[0] }} - {{ driver[2] }} {{ driver[1] }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit" class="btn btn-outline-success btn-sm" style="margin-left: 20px;">Run Details</button>
+                {% endif %}
+            </div>
+        </div>
+    </form>
+
+
+
+<div class="d-flex justify-content-center">
+    <!-- code to display list of drivers-->
+    <table class="table" style="width: 80%;">
+        <caption>List of drivers</caption>
+        <caption>Junior drivers are in yellow</caption>
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Surname Firstname</th>
+                <th scope="col">D.O.B</th>
+                <th scope="col">Age</th>
+                <th scope="col">Caregiver</th>
+                <th scope="col">Car Model</th>
+                <th scope="col">Drive Class</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for driver in driver_list %}
+            {% if driver[4] is not none and driver[4] < 26 %} <tr class="table-warning">
+                <td>{{ driver[0] }}</td>
+                {% if is_admin %}
+                    <td>{{ driver[2] }} {{ driver[1] }}</td>
+                {% else %}
+                    <td><a href="/listdrivers/rundetails?driver_id={{ driver[0] }}">{{ driver[2] }} {{ driver[1] }}</td>
+                {% endif %}
+                <td>{{ driver[3] }}</td>
+                <td>{{ driver[4] }}</td>
+                <td>{{ driver[5] }}</td>
+                <td>{{ driver[6] }}</td>
+                <td>{{ driver[7] }}</td>
+                <td>
+                    {% if is_admin %}
+                    <a href="/admin/viewrundetails?driver_id={{ driver[0] }}" class="btn btn-primary btn-sm">Edit Runs</a>
+                    {% endif %}
+                </td>
+
+                </tr>
+                {% else %}
+                <tr>
+                    <td>{{ driver[0] }}</td>
+                    {% if is_admin %}
+                        <td>{{ driver[2] }} {{ driver[1] }}</td>
+                    {% else %}
+                        <td><a href="/listdrivers/rundetails?driver_id={{ driver[0] }}">{{ driver[2] }} {{ driver[1] }}</td>
+                    {% endif %}
+                    <td>{{ driver[3] }}</td>
+                    <td>{{ driver[4] }}</td>
+                    <td>{{ driver[5] }}</td>
+                    <td>{{ driver[6] }}</td>
+                    <td>{{ driver[7] }}</td>
+                    <td>
+                        {% if is_admin %}
+                        <a href="/admin/viewrundetails?driver_id={{ driver[0] }}" class="btn btn-primary btn-sm">Edit Runs</a>
+                        {% endif %}
+                    </td>
+
+                </tr>
+                {% endif %}
+                {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endif %}
+{% endblock %}
